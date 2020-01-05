@@ -1,0 +1,12 @@
+[Unit]
+Description=Wordclock LED control
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/home/pi/wordclock
+ExecStart=/home/pi/wordclock/venv/bin/python wordclock.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
