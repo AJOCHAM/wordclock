@@ -1,0 +1,16 @@
+# python-specific
+# pre-compiled and cached files
+__pycache__
+*.pyc
+# standard virtual environment path
+venv
+
+# ide specific
+.vs
+.vscode
+# swap files (e.g. by Kate)
+.*swp
+
+# general
+tmp/
+*.env
