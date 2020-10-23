@@ -49,6 +49,7 @@ class Wordclock():
             8: list(range(77, 81)),     # acht 
             7: list(range(88, 94)),     # sieben
             12: list(range(94, 99)),    # zwölf
+            0: list(range(94, 99)),     # zwölf also used for 0
             10: list(range(106, 110)),  # zehn (2)
             9: list(range(103, 107)),   # neun
         }
