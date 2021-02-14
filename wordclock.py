@@ -128,7 +128,7 @@ class Wordclock():
 
             # in case something went wrong: clear the whole thing
             self._ledStrip.clear()
-            self._ledStrip.turnOnLedsAt(self.ledColor, ledIndices, 10)
+            self._ledStrip.colorWipe(self.ledColor, ledIndices, 10)
             self._previousIndices = ledIndices
 
             delay = (self.getNextUpdateTime() - datetime.datetime.now()).total_seconds()
