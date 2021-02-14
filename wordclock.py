@@ -109,7 +109,7 @@ class Wordclock():
 
         if hour == 1 and self._minute == 0:
             # special case: print "Ein Uhr" instead of "Eins Uhr"
-            return self._hourLeds[hour][:-1]
+            return self._hourLeds[hour][1:]
         else:    
             return self._hourLeds[hour]
 
