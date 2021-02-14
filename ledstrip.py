@@ -74,7 +74,7 @@ class LedStrip():
         """Turns on specified LEDs with specified color a pixel at a time."""
         if indices == None:
             indices = range(self.strip.numPixels())
-        else if sort:
+        elif sort:
             indices = sorted(indices)
 
         for i in indices:
