@@ -64,24 +64,31 @@ class LedStrip():
         if self.strip is None:
             strip = Adafruit_NeoPixel(self._ledCount, self._ledPin, self._ledFreqHz, self._ledDma, self._ledInvert, self._ledBrightness, self._ledChannel)
             strip.begin()
-            return strip   
+            return strip
 
     def clear(self, delay = 0):
         """Turns off the whole strip"""
-        self.colorWipe(Color(0,0,0), delay)     
+        self.colorWipe(Color(0,0,0), delay)
 
-    def turnOnLedsAt(self, color, indices):
-        """Turns on all leds defined in 'indices' with color specified """
+    def clear(self, indices, delay = 0):
+        """Turns off the specified LEDs"""
+        self.colorWipe(Color(0,0,0), indices, wait_ms)
+
+    def colorWipe(self, color, indices, delay=0):
+        """Turns on all leds defined in 'indices' with color specified a pixel at a time."""
         for i in indices:
-            self.strip.setPixelColor(i, color)  
-        self.strip.show()
+            self.strip.setPixelColor(i, color)
+            if delay != 0:
+                self.strip.show()
+
+            time.sleep(delay/1000.0)
+
+        if delay == 0:
+            self.strip.show()
 
     def colorWipe(self, color, wait_ms=50):
         """Wipe color across display a pixel at a time."""
-        for i in range(self.strip.numPixels()):
-            self.strip.setPixelColor(i, color)
-            self.strip.show()
-            time.sleep(wait_ms/1000.0)
+        self.colorWipe(color, range(self.strip.numPixels()), wait_ms)
 
     def theaterChase(self, color, wait_ms=50, iterations=10):
         """Movie theater light style chaser animation."""

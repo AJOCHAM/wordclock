@@ -21,6 +21,7 @@ class Wordclock():
         self._oldHour = None
         self._oldMinute = None
         self.ledColor = ledColor
+        self._previousIndices = None
 
         if roundTimeDown:
             self.rounder = math.floor
@@ -121,8 +122,15 @@ class Wordclock():
             logging.info("Time: {0} - Rounded: {1}:{2}".format(self._now, self._hour, self._minute))
             ledIndices = self._convertTimeToLedIndices()
             logging.debug("LEDs ({0}): {1}".format(len(ledIndices),ledIndices))
-            self._ledStrip.clear(10)
-            self._ledStrip.turnOnLedsAt(self.ledColor, ledIndices)
+
+            if self._previousIndices is not None:
+                self._ledStrip.clear(self._previousIndices, 10)
+
+            # in case something went wrong: clear the whole thing
+            self._ledStrip.clear()
+            self._ledStrip.turnOnLedsAt(self.ledColor, ledIndices, 10)
+            self._previousIndices = ledIndices
+
             delay = (self.getNextUpdateTime() - datetime.datetime.now()).total_seconds()
             self._exitFlag.wait(delay)
         self.clear()
