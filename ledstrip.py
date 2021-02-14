@@ -31,7 +31,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 import time
-from neopixel import Adafruit_NeoPixel, Color
+from rpi_ws281x import Adafruit_NeoPixel, Color
 
 class LedStrip():
     def __init__(
