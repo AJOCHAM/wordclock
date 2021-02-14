@@ -66,16 +66,15 @@ class LedStrip():
             strip.begin()
             return strip
 
-    def clear(self, delay = 0):
-        """Turns off the whole strip"""
-        self.colorWipe(Color(0,0,0), delay)
-
-    def clear(self, indices, delay = 0):
+    def clear(self, indices=None, delay = 0):
         """Turns off the specified LEDs"""
-        self.colorWipe(Color(0,0,0), indices, wait_ms)
+        self.colorWipe(Color(0,0,0), indices, delay)
 
-    def colorWipe(self, color, indices, delay=0):
-        """Turns on all leds defined in 'indices' with color specified a pixel at a time."""
+    def colorWipe(self, color, indices=None, delay=0):
+        """Turns on specified LEDs with specified color a pixel at a time."""
+        if indices == None:
+            indices = range(self.strip.numPixels())
+
         for i in indices:
             self.strip.setPixelColor(i, color)
             if delay != 0:
@@ -85,10 +84,6 @@ class LedStrip():
 
         if delay == 0:
             self.strip.show()
-
-    def colorWipe(self, color, wait_ms=50):
-        """Wipe color across display a pixel at a time."""
-        self.colorWipe(color, range(self.strip.numPixels()), wait_ms)
 
     def theaterChase(self, color, wait_ms=50, iterations=10):
         """Movie theater light style chaser animation."""
