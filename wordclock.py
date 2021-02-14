@@ -38,7 +38,6 @@ class Wordclock():
         self._tenMinLeds = list(range(18, 22))    # zehn (1)
         self._twentyMinLeds = list(range(11, 18)) # zwanzig
         self._hourLeds = {
-            #3: (22, 26),
             11: list(range(49, 52)),    # elf
             5: list(range(51, 55)),     # fünf (2)
             1: list(range(62, 66)),     # eins 
@@ -107,8 +106,11 @@ class Wordclock():
         if hour > 12:
             hour -= 12
 
-        return self._hourLeds[hour]
-
+        if hour == 1 and self._minute == 0:
+            # special case: print "Ein Uhr" instead of "Eins Uhr"
+            return self._hourLeds[hour][:-1]
+        else:    
+            return self._hourLeds[hour]
 
     def _convertMinuteToLedIndices(self):
         return self._minuteToLeds[self._minute]
@@ -135,7 +137,7 @@ if __name__ == '__main__':
     clock = None
     try:
         logging.basicConfig(level=logging.DEBUG, filename='wordclock.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
-        clock = Wordclock(1, Color(100,200,100),True)
+        clock = Wordclock(50, Color(65,255,0),True) #(178,32,170) grb
         clock.runClock()
     except Exception:
         logging.exception("Unhandled Exception occured.")
