@@ -70,7 +70,7 @@ class LedStrip():
         """Turns off the specified LEDs"""
         self.colorWipe(Color(0,0,0), indices, delay)
 
-    def colorWipe(self, color, indices=None, delay=0, sort = True):
+    def colorWipe(self, color, indices=None, delay=0, sort = False):
         """Turns on specified LEDs with specified color a pixel at a time."""
         if indices == None:
             indices = range(self.strip.numPixels())
