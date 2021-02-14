@@ -12,7 +12,7 @@ class Wordclock():
     def __init__(
         self,
         ledBrightness = 1,     # Set to 0 for darkest and 255 for brightest
-        ledColor = Color(72, 209, 204),
+        ledColor = Color(255, 65, 0), # rgb
         roundTimeDown = True   # True to round down minutes to last 5 minutes - False to round up to the next 5 minutes
     ):
         self._ledStrip = LedStrip(ledBrightness=ledBrightness)
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     clock = None
     try:
         logging.basicConfig(level=logging.DEBUG, filename='wordclock.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
-        clock = Wordclock(50, Color(65,255,0),True) #(178,32,170) grb
+        clock = Wordclock(50, Color(255, 65, 0),True)
         clock.runClock()
     except Exception:
         logging.exception("Unhandled Exception occured.")
