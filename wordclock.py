@@ -100,11 +100,15 @@ class Wordclock():
 
     def _convertHourToLedIndices(self):
         hour = self._hour
+
+        if self._minute > 20:
+            hour += 1
+
         if hour > 12:
-            hour = hour - 12
-        if self._minute <= 20:
-            return self._hourLeds[hour]
-        return self._hourLeds[hour + 1]
+            hour -= 12
+
+        return self._hourLeds[hour]
+
 
     def _convertMinuteToLedIndices(self):
         return self._minuteToLeds[self._minute]
