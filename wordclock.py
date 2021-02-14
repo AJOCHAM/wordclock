@@ -1,7 +1,7 @@
 import time
 import datetime
 import math
-from neopixel import Color
+from rpi_ws281x import Color
 import logging
 import signal
 from threading import Event
