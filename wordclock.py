@@ -29,15 +29,15 @@ class Wordclock():
             self.rounder = math.ceil
         
         # LED INDICES
-        self._defaultLeds = list(range(0,2)) + list(range(3, 6)) # es + ist
-        self._clockLeds = list(range(99, 102))    # uhr
-        self._halfLeds = list(range(44, 48))      # halb
-        self._quarterLeds = list(range(26, 33))   # viertel
-        self._beforeLeds = list(range(41, 44))    # vor
-        self._afterLeds = list(range(33, 37))     # nach
-        self._fiveMinLeds = list(range(7, 11))    # fünf (1)
-        self._tenMinLeds = list(range(18, 22))    # zehn (1)
-        self._twentyMinLeds = list(range(11, 18)) # zwanzig
+        self._defaultLeds = list(range(9,10)) + list(range(5, 7)) # es + ist
+        self._clockLeds = list(range(119, 121))    # uhr
+        self._halfLeds = list(range(55, 58))      # halb
+        self._quarterLeds = list(range(23, 29))   # viertel
+        self._beforeLeds = list(range(40, 42))    # vor
+        self._afterLeds = list(range(43, 46))     # nach
+        self._fiveMinLeds = list(range(30, 33))    # fünf (1)
+        self._tenMinLeds = list(range(11, 14))    # zehn (1)
+        self._twentyMinLeds = list(range(16, 22)) # zwanzig
         self._hourLeds = {
             11: list(range(49, 52)),    # elf
             5: list(range(51, 55)),     # fünf (2)
