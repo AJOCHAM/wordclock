@@ -39,19 +39,19 @@ class Wordclock():
         self._tenMinLeds = list(range(11, 15))    # zehn (1)
         self._twentyMinLeds = list(range(16, 23)) # zwanzig
         self._hourLeds = {
-            11: list(range(49, 52)),    # elf
-            5: list(range(51, 55)),     # fünf (2)
-            1: list(range(62, 66)),     # eins 
-            2: list(range(55, 59)),     # zwei
-            3: list(range(66, 70)),     # drei (2)
-            4: list(range(73, 77)),     # vier
+            11: list(range(51, 54)),    # elf
+            5: list(range(48, 52)),     # fünf (2)
+            1: list(range(59, 63)),     # eins
+            2: list(range(65, 69)),     # zwei
+            3: list(range(78, 82)),     # drei (2)
+            4: list(range(72, 76)),     # vier
             6: list(range(83, 88)),     # sechs
-            8: list(range(77, 81)),     # acht 
-            7: list(range(88, 94)),     # sieben
-            12: list(range(94, 99)),    # zwölf
-            0: list(range(94, 99)),     # zwölf also used for 0
-            10: list(range(106, 110)),  # zehn (2)
-            9: list(range(103, 107)),   # neun
+            8: list(range(89, 93)),     # acht
+            7: list(range(100, 106)),     # sieben
+            12: list(range(95, 100)),    # zwölf
+            0: list(range(95, 100)),     # zwölf also used for 0
+            10: list(range(107, 111)),  # zehn (2)
+            9: list(range(111, 114)),   # neun
         }
         self._minuteToLeds = {
             0: self._clockLeds,
