@@ -11,7 +11,7 @@ class Wordclock():
 
     def __init__(
         self,
-        ledBrightness = 1,     # Set to 0 for darkest and 255 for brightest
+        ledBrightness = 100,     # Set to 0 for darkest and 255 for brightest
         ledColor = Color(255, 65, 0), # rgb
         roundTimeDown = True   # True to round down minutes to last 5 minutes - False to round up to the next 5 minutes
     ):
