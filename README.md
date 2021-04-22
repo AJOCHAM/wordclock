@@ -1,10 +1,10 @@
 # wordclock
-A simple python wordclock with a 11x10 (columns x rows), german [layout](layout.png). There are other more sophisticated repositories out there that have more features than this one. If you are interested in a simple project however feel free to use it.
+A simple python wordclock with a 12x12 (columns x rows), german [layout](layout.png).
+Kudos to WTRipper
 
 ## Hardware I am using:  
 - Raspberry Pi Zero
-- 110 WS2812b Led stripes (120 LEDs/m)
-- IKEA Ribba frame (23 x 23 x 4.5 cm)
+- 139 WS2812b Led stripes (120 LEDs/m) - I removed some LEDs due to my frame setting
 
 ## Setup
 
@@ -14,7 +14,7 @@ sudo pip install rpi_ws281x
 ```
 2. Clone this repo:
 ```
-git clone https://github.com/WTRipper/wordclock
+git clone https://github.com/AJOCHAM/wordclock
 ```
 3. Update Config (TODO)
 4. Test:
