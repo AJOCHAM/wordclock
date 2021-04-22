@@ -36,7 +36,7 @@ from rpi_ws281x import Adafruit_NeoPixel, Color
 class LedStrip():
     def __init__(
         self,
-        ledCount = 110,      # Number of LED pixels.
+        ledCount = 138,      # Number of LED pixels.
         ledPin = 18,      # GPIO pin connected to the pixels (18 uses PWM, 10 uses SPI /dev/spidev0.0).
         ledFreqHz = 800000,  # LED signal frequency in hertz (usually 800khz)
         ledDma = 10,      # DMA channel to use for generating signal (try 10)
