@@ -1,11 +1,13 @@
 import time
-import datetime
+from datetime import datetime
 import math
 from rpi_ws281x import Color
 import logging
 import signal
 from threading import Event
 from ledstrip import LedStrip
+import random
+import pandas as pd
 
 class Wordclock():
 
@@ -27,7 +29,7 @@ class Wordclock():
             self.rounder = math.floor
         else:
             self.rounder = math.ceil
-        
+
         # LED INDICES
         self._defaultLeds = list(range(9,11)) + list(range(5, 8)) # es + ist
         self._clockLeds = list(range(119, 122))    # uhr
@@ -47,11 +49,11 @@ class Wordclock():
             4: list(range(72, 76)),     # vier
             6: list(range(83, 88)),     # sechs
             8: list(range(89, 93)),     # acht
-            7: list(range(100, 106)),     # sieben
-            12: list(range(95, 100)),    # zwölf
-            0: list(range(95, 100)),     # zwölf also used for 0
+            7: list(range(100, 106)),   # sieben
+            12: list(range(95, 100)),   # zwölf
+            0: list(range(95, 100)),    # zwölf also used for 0
             10: list(range(107, 111)),  # zehn (2)
-            9: list(range(111, 114)),   # neun
+            9: list(range(110, 114)),   # neun
         }
         self._minuteToLeds = {
             0: self._clockLeds,
@@ -69,7 +71,7 @@ class Wordclock():
         }
 
         self._exitFlag = self._setupExitHandler()
-    
+
     def _setupExitHandler(self):
         for sig in ('TERM', 'HUP', 'INT'):
             signal.signal(getattr(signal, 'SIG'+sig), self.quit)
@@ -80,17 +82,18 @@ class Wordclock():
         self._exitFlag.set()
 
     def getNextUpdateTime(self):
-        oldRoundedNow = datetime.datetime(self._now.year, self._now.month, self._now.day, self._hour, self._minute)
+        oldRoundedNow = datetime(self._now.year, self._now.month, self._now.day, self._hour, self._minute)
         if (self._roundTimeDown):
             return oldRoundedNow + datetime.timedelta(minutes=5)
         return oldRoundedNow
-    
+
     def getRoundedTime(self, now=None):
-        if (now is None):
-            now = datetime.datetime.now()
-        self._now = now
-        self._hour = now.hour
-        self._minute = self.rounder(now.minute / 5) * 5
+        #if (now is None):
+        self._now = datetime.now()
+
+        hour,min,sec = str(datetime.now().time()).split(":")
+        self._hour = int(hour)
+        self._minute = math.ceil(int(min)/5)*5
 
     def _convertTimeToLedIndices(self):
         ledIndices = list(self._defaultLeds) # copy the list
@@ -110,7 +113,7 @@ class Wordclock():
         if hour == 1 and self._minute == 0:
             # special case: print "Ein Uhr" instead of "Eins Uhr"
             return self._hourLeds[hour][1:]
-        else:    
+        else:
             return self._hourLeds[hour]
 
     def _convertMinuteToLedIndices(self):
@@ -119,19 +122,34 @@ class Wordclock():
     def runClock(self):
         while not self._exitFlag.is_set():
             self.getRoundedTime()
+
+            if self._minute > 59:
+                self._minute = 0
+                self._hour = self._hour +1
+
             logging.info("Time: {0} - Rounded: {1}:{2}".format(self._now, self._hour, self._minute))
+
             ledIndices = self._convertTimeToLedIndices()
             logging.debug("LEDs ({0}): {1}".format(len(ledIndices),ledIndices))
+            self.ledColor = Color(random.randint(100, 255),random.randint(100, 255),random.randint(100, 255))
 
             if self._previousIndices is not None:
                 self._ledStrip.clear(self._previousIndices, 10)
-
-            # in case something went wrong: clear the whole thing
+            #else:
+             #in case something went wrong: clear the whole thing
             self._ledStrip.clear()
+
+
             self._ledStrip.colorWipe(self.ledColor, ledIndices, 10)
             self._previousIndices = ledIndices
 
-            delay = (self.getNextUpdateTime() - datetime.datetime.now()).total_seconds()
+
+            delay = (self.getNextUpdateTime() - self._now).total_seconds()+60
+            if delay < 1:
+                delay = 10
+            #print("----")
+            #print(delay)
+            #print(self._now)
             self._exitFlag.wait(delay)
         self.clear()
 
@@ -145,11 +163,9 @@ if __name__ == '__main__':
     clock = None
     try:
         logging.basicConfig(level=logging.DEBUG, filename='wordclock.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
-        clock = Wordclock(50, Color(255, 65, 0),True)
+        clock = Wordclock(230, Color(255, 65, 0), False)
         clock.runClock()
     except Exception:
         logging.exception("Unhandled Exception occured.")
         if clock is not None:
             clock.clear()
-
-
