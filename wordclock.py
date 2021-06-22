@@ -35,9 +35,10 @@ class Wordclock():
         self._clockLeds = list(range(119, 122))    # uhr
         self._halfLeds = list(range(55, 59))      # halb
         self._quarterLeds = list(range(23, 30))   # viertel
+        self._shortlyLeds = list(range(31, 34))   # viertel
         self._beforeLeds = list(range(40, 43))    # vor
         self._afterLeds = list(range(43, 47))     # nach
-        self._fiveMinLeds = list(range(30, 34))    # fünf (1)
+        self._fiveMinLeds = list(range(36, 39))    # fünf (1)
         self._tenMinLeds = list(range(11, 15))    # zehn (1)
         self._twentyMinLeds = list(range(16, 23)) # zwanzig
         self._hourLeds = {
@@ -57,17 +58,65 @@ class Wordclock():
         }
         self._minuteToLeds = {
             0: self._clockLeds,
+            1: self._shortlyLeds + self._afterLeds,
+            2: self._shortlyLeds + self._afterLeds,
+            3: self._shortlyLeds + self._afterLeds,
+            4: self._shortlyLeds + self._afterLeds,
             5: self._fiveMinLeds + self._afterLeds,
+            6: self._tenMinLeds + self._afterLeds,
+            7: self._tenMinLeds + self._afterLeds,
+            8: self._tenMinLeds + self._afterLeds,
+            9: self._tenMinLeds + self._afterLeds,
             10: self._tenMinLeds + self._afterLeds,
+            11: self._quarterLeds + self._afterLeds,
+            12: self._quarterLeds + self._afterLeds,
+            13: self._quarterLeds + self._afterLeds,
+            14: self._quarterLeds + self._afterLeds,
             15: self._quarterLeds + self._afterLeds,
+            16: self._twentyMinLeds + self._afterLeds,
+            17: self._twentyMinLeds + self._afterLeds,
+            18: self._twentyMinLeds + self._afterLeds,
+            19: self._twentyMinLeds + self._afterLeds,
             20: self._twentyMinLeds + self._afterLeds,
+            21: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
+            22: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
+            23: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
+            24: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
             25: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
+            26: self._shortlyLeds + self._beforeLeds + self._halfLeds,
+            27: self._shortlyLeds + self._beforeLeds + self._halfLeds,
+            28: self._shortlyLeds + self._beforeLeds + self._halfLeds,
+            29: self._shortlyLeds + self._beforeLeds + self._halfLeds,
             30: self._halfLeds,
+            31: self._shortlyLeds + self._afterLeds + self._halfLeds,
+            32: self._shortlyLeds + self._afterLeds + self._halfLeds,
+            33: self._shortlyLeds + self._afterLeds + self._halfLeds,
+            34: self._shortlyLeds + self._afterLeds + self._halfLeds,
             35: self._fiveMinLeds + self._afterLeds + self._halfLeds,
+            36: self._twentyMinLeds + self._beforeLeds,
+            37: self._twentyMinLeds + self._beforeLeds,
+            38: self._twentyMinLeds + self._beforeLeds,
+            39: self._twentyMinLeds + self._beforeLeds,
             40: self._twentyMinLeds + self._beforeLeds,
+            41: self._quarterLeds + self._beforeLeds,
+            42: self._quarterLeds + self._beforeLeds,
+            43: self._quarterLeds + self._beforeLeds,
+            44: self._quarterLeds + self._beforeLeds,
             45: self._quarterLeds + self._beforeLeds,
+            46: self._tenMinLeds + self._beforeLeds,
+            47: self._tenMinLeds + self._beforeLeds,
+            48: self._tenMinLeds + self._beforeLeds,
+            49: self._tenMinLeds + self._beforeLeds,
             50: self._tenMinLeds + self._beforeLeds,
-            55: self._fiveMinLeds + self._beforeLeds
+            51: self._fiveMinLeds + self._beforeLeds,
+            52: self._fiveMinLeds + self._beforeLeds,
+            53: self._fiveMinLeds + self._beforeLeds,
+            54: self._fiveMinLeds + self._beforeLeds,
+            55: self._fiveMinLeds + self._beforeLeds,
+            56: self._shortlyLeds + self._beforeLeds,
+            57: self._shortlyLeds + self._beforeLeds,
+            58: self._shortlyLeds + self._beforeLeds,
+            59: self._shortlyLeds + self._beforeLeds,
         }
 
         self._exitFlag = self._setupExitHandler()
@@ -84,7 +133,7 @@ class Wordclock():
     def getNextUpdateTime(self):
         oldRoundedNow = datetime(self._now.year, self._now.month, self._now.day, self._hour, self._minute)
         if (self._roundTimeDown):
-            return oldRoundedNow + datetime.timedelta(minutes=5)
+            return oldRoundedNow + datetime.timedelta(minutes=1)
         return oldRoundedNow
 
     def getRoundedTime(self, now=None):
@@ -93,7 +142,7 @@ class Wordclock():
 
         hour,min,sec = str(datetime.now().time()).split(":")
         self._hour = int(hour)
-        self._minute = math.ceil(int(min)/5)*5
+        self._minute = int(min)
 
     def _convertTimeToLedIndices(self):
         ledIndices = list(self._defaultLeds) # copy the list
@@ -127,7 +176,7 @@ class Wordclock():
                 self._minute = 0
                 self._hour = self._hour +1
 
-            logging.info("Time: {0} - Rounded: {1}:{2}".format(self._now, self._hour, self._minute))
+            #logging.info("Time: {0} - Rounded: {1}:{2}".format(self._now, self._hour, self._minute))
 
             ledIndices = self._convertTimeToLedIndices()
             logging.debug("LEDs ({0}): {1}".format(len(ledIndices),ledIndices))
@@ -147,9 +196,9 @@ class Wordclock():
             delay = (self.getNextUpdateTime() - self._now).total_seconds()+60
             if delay < 1:
                 delay = 10
-            #print("----")
-            #print(delay)
-            #print(self._now)
+            print("----")
+            print(delay)
+            print(self._now)
             self._exitFlag.wait(delay)
         self.clear()
 
