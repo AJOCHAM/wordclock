@@ -35,10 +35,10 @@ class Wordclock():
         self._clockLeds = list(range(119, 122))    # uhr
         self._halfLeds = list(range(55, 59))      # halb
         self._quarterLeds = list(range(23, 30))   # viertel
-        self._shortlyLeds = list(range(31, 34))   # viertel
+        self._shortlyLeds = list(range(30, 34))   # viertel
         self._beforeLeds = list(range(40, 43))    # vor
         self._afterLeds = list(range(43, 47))     # nach
-        self._fiveMinLeds = list(range(36, 39))    # fünf (1)
+        self._fiveMinLeds = list(range(35, 39))    # fünf (1)
         self._tenMinLeds = list(range(11, 15))    # zehn (1)
         self._twentyMinLeds = list(range(16, 23)) # zwanzig
         self._hourLeds = {
@@ -78,15 +78,15 @@ class Wordclock():
             18: self._twentyMinLeds + self._afterLeds,
             19: self._twentyMinLeds + self._afterLeds,
             20: self._twentyMinLeds + self._afterLeds,
-            21: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
-            22: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
-            23: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
-            24: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
+            21: self._tenMinLeds + self._beforeLeds + self._halfLeds,
+            22: self._tenMinLeds + self._beforeLeds + self._halfLeds,
+            23: self._tenMinLeds + self._beforeLeds + self._halfLeds,
+            24: self._tenMinLeds + self._beforeLeds + self._halfLeds,
             25: self._fiveMinLeds + self._beforeLeds + self._halfLeds,
             26: self._shortlyLeds + self._beforeLeds + self._halfLeds,
             27: self._shortlyLeds + self._beforeLeds + self._halfLeds,
             28: self._shortlyLeds + self._beforeLeds + self._halfLeds,
-            29: self._shortlyLeds + self._beforeLeds + self._halfLeds,
+            29: self._halfLeds,
             30: self._halfLeds,
             31: self._shortlyLeds + self._afterLeds + self._halfLeds,
             32: self._shortlyLeds + self._afterLeds + self._halfLeds,
@@ -179,8 +179,8 @@ class Wordclock():
             #logging.info("Time: {0} - Rounded: {1}:{2}".format(self._now, self._hour, self._minute))
 
             ledIndices = self._convertTimeToLedIndices()
-            logging.debug("LEDs ({0}): {1}".format(len(ledIndices),ledIndices))
-            self.ledColor = Color(random.randint(100, 255),random.randint(100, 255),random.randint(100, 255))
+            #logging.debug("LEDs ({0}): {1}".format(len(ledIndices),ledIndices))
+            self.ledColor = Color(random.randint(50, 255),random.randint(50, 255),random.randint(50, 255))
 
             if self._previousIndices is not None:
                 self._ledStrip.clear(self._previousIndices, 10)
